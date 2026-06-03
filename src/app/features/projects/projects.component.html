@@ -1,60 +1,58 @@
-<main class="page">
-  <article class="card">
-    <section class="section-block">
-      <div class="section-header">
-
-        @if (pageTitle$ | async; as pageTitle) {
-          <h1>{{ pageTitle }}</h1>
-        }
-
-        @if (techFilter$ | async; as tech) {
-          @if (tech) {
-            <a routerLink="/projects">Clear filter</a>
-          }
-        }
-
-      </div>
-
-      @if (techFilter$ | async; as tech) {
-        @if (tech) {
-          <p class="text">
-            Active filter:
-            <strong>{{ tech }}</strong>
-          </p>
-        }
+<div class="docs-page">
+  <div class="docs-page-header">
+    @if (pageTitle$ | async; as pageTitle) {
+      <h1>{{ pageTitle }}</h1>
+    }
+    @if (techFilter$ | async; as tech) {
+      @if (tech) {
+        <a routerLink="/projects" class="clear-filter">Clear filter</a>
       }
+    }
+  </div>
 
-      @if (filteredProjects$ | async; as projects) {
-        <div class="project-list">
-          @for (project of projects; track trackByProject($index, project)) {
-            <article class="project-card">
-              <div class="project-main read-more">
-                <a [routerLink]="['/projects', project.id]">
-                  <h2>{{ project.title }}</h2>
-                  <p>{{ project.description }}</p>
+  @if (techFilter$ | async; as tech) {
+    @if (tech) {
+      <p class="active-filter">
+        Filtered by: <strong>{{ tech }}</strong>
+      </p>
+    } @else {
+      <p class="section-description">
+        A selection of projects I've built — ranging from homelab infrastructure and DevOps tooling
+        to graphics programming and web apps. Click a technology badge to filter,
+        or navigate directly from the sidebar.
+      </p>
+    }
+  } @else {
+    <p class="section-description">
+      A selection of projects I've built — ranging from homelab infrastructure and DevOps tooling
+      to graphics programming and web apps. Click a technology badge to filter,
+      or navigate directly from the sidebar.
+    </p>
+  }
+
+  @if (filteredProjects$ | async; as projects) {
+    <div class="post-list">
+      @for (project of projects; track trackByProject($index, project)) {
+        <article class="post-card">
+          <div class="post-main read-more">
+            <a [routerLink]="projectLink(project.id)">
+              <h2>{{ project.title }}</h2>
+              <p>{{ project.description }}</p>
+            </a>
+            <div class="tag-list">
+              @for (tech of project.technologies; track tech) {
+                <a class="tag-item" [routerLink]="['/projects']" [queryParams]="{ tech: tech }">
+                  {{ tech }}
                 </a>
-                <div class="tag-list">
-                  @for (tech of project.technologies; track tech) {
-                    <a
-                      class="tag-item"
-                      [routerLink]="['/projects']"
-                      [queryParams]="{ tech: tech }"
-                    >
-                      {{ tech }}
-                    </a>
-                  }
-                </div>
-
-                <a [routerLink]="['/projects', project.id]">Read more →</a>
-              </div>
-              <div class="project-year">{{ project.year }}</div>
-            </article>
-          } @empty {
-            <p class="text">No projects found for this technology.</p>
-          }
-        </div>
+              }
+            </div>
+            <a [routerLink]="projectLink(project.id)">Read more →</a>
+          </div>
+          <div class="post-date">{{ project.year }}</div>
+        </article>
+      } @empty {
+        <p class="empty-state">No projects found for this technology.</p>
       }
-
-    </section>
-  </article>
-</main>
+    </div>
+  }
+</div>

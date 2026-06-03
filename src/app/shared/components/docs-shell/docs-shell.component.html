@@ -1,0 +1,63 @@
+<div class="docs-layout">
+
+  <button class="sidebar-toggle" (click)="sidebarOpen.set(!sidebarOpen())" [attr.aria-expanded]="sidebarOpen()">
+    <span class="toggle-bar"></span>
+    <span class="toggle-bar"></span>
+    <span class="toggle-bar"></span>
+  </button>
+
+  <aside class="sidebar" [class.open]="sidebarOpen()">
+    <div class="sidebar-search">
+      <div class="search-input-wrapper">
+        <svg class="search-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M13 13l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <input
+          type="search"
+          [placeholder]="searchPlaceholder()"
+          (input)="onSearch($event)"
+          class="search-input"
+          aria-label="Search navigation"
+        />
+      </div>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Section navigation">
+      @if (isSearching()) {
+        @if (searchResults().length > 0) {
+          <ul class="search-results" role="list">
+            @for (result of searchResults(); track result.id) {
+              <li>
+                <a
+                  class="search-result-item"
+                  [routerLink]="result.routerLink"
+                  routerLinkActive="active"
+                  [routerLinkActiveOptions]="exactOptions"
+                  (click)="sidebarOpen.set(false)"
+                >{{ result.label }}</a>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="no-results">No results</p>
+        }
+      } @else {
+        @for (node of nodes(); track node.id) {
+          <app-sidebar-node
+            [node]="node"
+            [depth]="0"
+            (navigate)="sidebarOpen.set(false)"
+          />
+        }
+      }
+    </nav>
+  </aside>
+
+  <div class="sidebar-backdrop" [class.visible]="sidebarOpen()" (click)="sidebarOpen.set(false)"></div>
+
+  <main class="docs-content">
+    <router-outlet />
+  </main>
+
+</div>

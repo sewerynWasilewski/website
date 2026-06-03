@@ -96,6 +96,14 @@
   background: #000;
 }
 
+.markdown-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+  margin: 24px auto;
+}
+
 .markdown-body .md-youtube iframe {
   position: absolute;
   inset: 0;

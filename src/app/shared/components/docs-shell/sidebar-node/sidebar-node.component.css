@@ -1,0 +1,79 @@
+.node {
+  --depth: 0;
+}
+
+.node-row {
+  display: flex;
+  align-items: center;
+  padding-left: calc(16px + var(--depth) * 14px);
+}
+
+.chevron-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: var(--muted);
+  border-radius: 3px;
+  transition: color 0.15s;
+}
+
+.chevron-btn:hover {
+  color: var(--text);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.chevron {
+  width: 12px;
+  height: 12px;
+  transition: transform 0.18s ease;
+  transform: rotate(-90deg);
+}
+
+.chevron.expanded {
+  transform: rotate(0deg);
+}
+
+.leaf-spacer {
+  width: 20px;
+  flex-shrink: 0;
+}
+
+.node-link {
+  flex: 1;
+  min-width: 0;
+  display: block;
+  padding: 5px 12px 5px 4px;
+  font-family: var(--text-font);
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-radius: 0 4px 4px 0;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+}
+
+.node-link:hover {
+  color: var(--text);
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.node-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(42, 125, 225, 0.06);
+  font-weight: 500;
+}
+
+.node-children {
+  /* children inherit the indent via --depth */
+}

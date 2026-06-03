@@ -1,10 +1,12 @@
 <main class="page">
   <article class="card">
+
+    <!-- ── Intro ─────────────────────────────────────────────────── -->
     <section class="intro">
       <img
         class="avatar"
         src="assets/mypic.png"
-        alt="Zdjęcie profilowe Seweryna Wasilewskiego"
+        alt="Profile photo of Seweryn Wasilewski"
       />
 
       <h1 class="headline">
@@ -14,25 +16,45 @@
       </h1>
 
       <p class="intro-text">
-        Right now, I fulfill myself as DevOps Engineer at
-        <a class="accent-link" href="https://tenesys.io" target="_blank" rel="noopener noreferrer">TENESYS</a>.
-        Not only that, I'm also a student at
-        <a class="accent-link" href="https://put.poznan.pl/" target="_blank" rel="noopener noreferrer">
-          Poznan University of Technology
-        </a>,
-        where I expand my computer science knowledge.
+        I work as DevOps Engineer at
+        <a class="accent-link" href="https://tenesys.io" target="_blank" rel="noopener noreferrer">TENESYS</a>
+        and study Computer Science at
+        <a class="accent-link" href="https://put.poznan.pl/" target="_blank" rel="noopener noreferrer">Poznan University of Technology</a>.
+        On this site you'll find the projects I've built and notes from things I've learned along the way.
       </p>
 
-      <a href="#contact" class="contact-link">Get in touch →</a>
+      <div class="intro-actions">
+        <a routerLink="/projects" class="btn-primary">Browse projects →</a>
+        <a routerLink="/blog" class="btn-secondary">Read the blog →</a>
+      </div>
     </section>
 
+    <!-- ── What's here ───────────────────────────────────────────── -->
+    <section class="section-block" aria-labelledby="nav-heading">
+      <h2 id="nav-heading" class="section-title">What's here</h2>
+
+      <div class="nav-cards">
+        <a class="nav-card" routerLink="/projects">
+          <span class="nav-card-label text-yellow">Projects</span>
+          <p>Personal and professional projects — infrastructure automation, graphics programming, and web apps. Each project has a dedicated page with context, architecture notes, and code snippets.</p>
+          <span class="nav-card-cta">Browse projects →</span>
+        </a>
+        <a class="nav-card" routerLink="/blog">
+          <span class="nav-card-label text-green">Blog</span>
+          <p>Notes on DevOps, infrastructure, and software I've worked with. Posts are organized in topics</p>
+          <span class="nav-card-cta">Read the blog →</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ── Technologies ──────────────────────────────────────────── -->
     <section class="section-block" aria-labelledby="technologies-heading">
       <div class="section-header">
         <h2 id="technologies-heading" class="text-blue">Technologies</h2>
       </div>
-
-      <p class="text">I have worked with:</p>
-
+      <p class="text">
+        Tools and technologies I've worked with. Click any to filter projects by that technology.
+      </p>
       <ul class="tech-list">
         @for (tech of technologies; track trackByTech($index, tech)) {
           <li>
@@ -49,80 +71,87 @@
       </ul>
     </section>
 
-    <section class="section-block" aria-labelledby="projects-heading">
+    <!-- ── Featured projects ─────────────────────────────────────── -->
+    <!-- <section class="section-block" aria-labelledby="projects-heading">
       <div class="section-header">
         <h2 id="projects-heading" class="text-yellow">Projects</h2>
-        <a routerLink="/projects">See all</a>
+        <a routerLink="/projects">See all →</a>
       </div>
+      <p class="text">A few things I've built recently.</p>
 
       <div class="project-list">
-        @for (project of projects; track trackByProject($index, project)) {
+        @for (project of projects(); track trackByProject($index, project)) {
           <article class="project-card">
             <div class="project-main read-more">
               <a [routerLink]="['/projects', project.id]">
                 <h2>{{ project.title }}</h2>
                 <p>{{ project.description }}</p>
               </a>
-              <a [routerLink]="['/projects', project.id]" >Read more →</a>
+              <a [routerLink]="['/projects', project.id]">Read more →</a>
             </div>
             <div class="project-year">{{ project.year }}</div>
           </article>
         }
       </div>
-    </section>
+    </section> -->
 
-    <section class="section-block thoughts-block" aria-labelledby="blog-heading">
+    <!-- ── Recent posts ──────────────────────────────────────────── -->
+    <!-- <section class="section-block thoughts-block" aria-labelledby="blog-heading">
       <div class="section-header">
-        <h2 id="blog-heading">My small <span class="text-green">Blog</span></h2>
-        <a routerLink="/blog">See all</a>
+        <h2 id="blog-heading">My <span class="text-green">Blog</span></h2>
+        <a routerLink="/blog">See all →</a>
       </div>
-
       <p class="text">
-        Here you can read about some of the technologies I battled with,
-        solutions I came up with and other things I learned along the way.
+        Notes on technologies I've used, problems I've solved, and things I learned the hard way.
+        Posts are grouped by topic in the sidebar on the blog page.
       </p>
-    </section>
 
+      <div class="project-list">
+        @for (post of recentPosts(); track trackByPost($index, post)) {
+          <article class="project-card">
+            <div class="project-main read-more">
+              <a [routerLink]="blogLink(post.id)">
+                <h2>{{ post.title }}</h2>
+                <p>{{ post.excerpt }}</p>
+              </a>
+              <a [routerLink]="blogLink(post.id)">Read post →</a>
+            </div>
+            <div class="project-year">{{ post.date }}</div>
+          </article>
+        } @empty {
+          <p class="text">No posts yet.</p>
+        }
+      </div>
+    </section> -->
+
+    <!-- ── More about me ─────────────────────────────────────────── -->
     <section class="section-block thoughts-block" aria-labelledby="more-heading">
       <div class="section-header">
         <h2 id="more-heading">More about <span class="text-red">Me</span></h2>
       </div>
-
       <ul class="link-list read-more">
         <li>
-          <a
-            href="https://www.linkedin.com/in/seweryn-wasilewski/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://www.linkedin.com/in/seweryn-wasilewski/" target="_blank" rel="noopener noreferrer">
             LinkedIn
           </a>
         </li>
         <li>
-          <a
-            href="https://github.com/sewerynWasilewski"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://github.com/sewerynWasilewski" target="_blank" rel="noopener noreferrer">
             GitHub
           </a>
         </li>
       </ul>
     </section>
 
-    <section
-      class="section-block thoughts-block"
-      id="contact"
-      aria-labelledby="contact-heading"
-    >
+    <!-- ── Contact ───────────────────────────────────────────────── -->
+    <section class="section-block thoughts-block" id="contact" aria-labelledby="contact-heading">
       <div class="section-header">
         <h2 id="contact-heading"><span class="text-blue">Contact</span> Me</h2>
       </div>
-
       <p class="text">
-        Mail:
-        <a href="mailto:seweryn.wasilewski@gmail.com">seweryn.wasilewski@gmail.com</a>
+        Mail: <a href="mailto:seweryn.wasilewski@gmail.com">seweryn.wasilewski@gmail.com</a>
       </p>
     </section>
+
   </article>
 </main>

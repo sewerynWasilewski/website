@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 :root {
+  --navbar-height: 56px;
   --bg: #4b4b4b;
   --card-bg: #f5f5f4;
   --card-soft: #f1f1f0;
@@ -32,9 +33,9 @@ html {
 
 body {
   margin: 0;
+  padding-top: var(--navbar-height);
   min-height: 100vh;
-  font-family: var(--text-font); 
-  
+  font-family: var(--text-font);
   color: var(--text);
   background: var(--card-bg);
 }
@@ -76,13 +77,13 @@ a {
 }
 
 .card {
-  max-width: 760px;
+  max-width: 860px;
   margin: 0 auto;
   background: var(--card-bg);
   padding: 56px 48px 44px;
-  border-style: solid;
+  /* border-style: solid;
   border-width: 0 1px;
-  border-color: var(--line);
+  border-color: var(--line); */
 }
 
 .intro,
@@ -297,4 +298,162 @@ a {
     width: 100%;
     justify-content: flex-start;
   }
+}
+
+/* ── Docs page content (used inside docs-shell) ──────────────────────────── */
+
+.docs-page {
+  max-width: 760px;
+}
+
+.docs-page h1 {
+  font-family: var(--header-font);
+  font-size: clamp(28px, 3vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0 0 8px;
+  color: var(--text);
+}
+
+.docs-page h2 {
+  font-family: var(--header-font);
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+
+.docs-page-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.docs-page-header h1 {
+  margin: 0;
+}
+
+.clear-filter {
+  font-family: var(--text-font);
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.clear-filter:hover {
+  color: var(--accent);
+}
+
+.section-description {
+  font-family: var(--text-font);
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.8;
+  margin: 0 0 32px;
+  max-width: 600px;
+}
+
+.active-filter {
+  font-family: var(--text-font);
+  font-size: 13px;
+  color: var(--muted);
+  margin: -12px 0 20px;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--text-font);
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+
+.breadcrumb a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb-sep {
+  color: var(--line);
+}
+
+.post-meta {
+  font-family: var(--text-font);
+  font-size: 13px;
+  color: var(--muted);
+  margin: 4px 0 20px;
+}
+
+.post-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.post-card {
+  background: var(--card-soft);
+  border-radius: 12px;
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.post-main {
+  min-width: 0;
+}
+
+.post-main a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.post-main h2 {
+  margin: 0 0 8px;
+}
+
+.post-main p {
+  margin: 0 0 14px;
+  font-family: var(--text-font);
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.post-main > a:last-of-type {
+  font-family: var(--text-font);
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.post-main > a:last-of-type:hover {
+  color: var(--accent);
+}
+
+.post-date {
+  font-family: var(--text-font);
+  font-size: 13px;
+  color: var(--muted);
+  white-space: nowrap;
+  padding-top: 2px;
+  flex-shrink: 0;
+}
+
+.empty-state {
+  font-family: var(--text-font);
+  font-size: 14px;
+  color: var(--muted);
 }

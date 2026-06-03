@@ -1,0 +1,130 @@
+{
+  "blog": [
+    {
+      "id": "terraform-state-basics",
+      "title": "Terraform State Basics",
+      "date": "2026-03-20",
+      "excerpt": "A short introduction to how Terraform state works and what to watch out for.",
+      "technologies": [
+        "terraform"
+      ],
+      "contentPath": "blog/terraform-state-basics.md",
+      "children": []
+    },
+    {
+      "id": "homelab",
+      "title": "Homelab Series",
+      "date": "2026-03-15",
+      "excerpt": "A collection of posts about setting up and running my personal homelab — from bare-metal provisioning to monitoring.",
+      "technologies": [
+        "proxmox",
+        "linux",
+        "docker",
+        "ansible"
+      ],
+      "contentPath": "blog/homelab/_index.md",
+      "children": [
+        {
+          "id": "homelab/proxmox-vm-networking",
+          "title": "Proxmox VM Networking Notes",
+          "date": "2026-03-15",
+          "excerpt": "A few lessons learned while setting up bridges, NAT and internal networks in Proxmox.",
+          "technologies": [
+            "proxmox",
+            "linux"
+          ],
+          "contentPath": "blog/homelab/proxmox-vm-networking.md",
+          "children": []
+        },
+        {
+          "id": "homelab/ansible-role-structure",
+          "title": "How I Structure Ansible Roles",
+          "date": "2026-03-18",
+          "excerpt": "A practical way to keep Ansible roles clean and reusable.",
+          "technologies": [
+            "ansible",
+            "linux"
+          ],
+          "contentPath": "blog/homelab/ansible-role-structure.md",
+          "children": []
+        }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "id": "homelab",
+      "title": "Homelab",
+      "excerpt": "My personal space to learn and practice DevOps topics.",
+      "description": "My personal space to learn and practice DevOps topics.",
+      "year": "2023",
+      "technologies": [
+        "proxmox",
+        "terraform",
+        "ansible",
+        "docker",
+        "linux"
+      ],
+      "contentPath": "projects/homelab/_index.md",
+      "children": [
+        {
+          "id": "homelab/monitoring",
+          "title": "Monitoring Stack",
+          "excerpt": "Grafana + Prometheus setup for observability across the homelab.",
+          "description": "Grafana + Prometheus setup for observability across the homelab.",
+          "year": "2024",
+          "technologies": [
+            "grafana",
+            "docker",
+            "linux"
+          ],
+          "contentPath": "projects/homelab/monitoring.md",
+          "children": []
+        }
+      ]
+    },
+    {
+      "id": "3d-renderer",
+      "title": "3D Renderer",
+      "excerpt": "A renderer that uses a frame graph approach.",
+      "description": "A renderer that uses a frame graph approach.",
+      "year": "2023",
+      "technologies": [
+        "cpp",
+        "opengl",
+        "vulkan"
+      ],
+      "contentPath": "projects/3d-renderer.md",
+      "children": []
+    },
+    {
+      "id": "myteacher",
+      "title": "myTeacher",
+      "excerpt": "An app for e-lessons.",
+      "description": "An app for e-lessons.",
+      "year": "2023",
+      "technologies": [
+        "angular",
+        "js",
+        "mysql"
+      ],
+      "contentPath": "projects/myteacher.md",
+      "children": []
+    },
+    {
+      "id": "portfolio",
+      "title": "Portfolio",
+      "excerpt": "My personal portfolio website.",
+      "description": "My personal portfolio website.",
+      "year": "2025",
+      "technologies": [
+        "angular",
+        "js",
+        "css",
+        "docker"
+      ],
+      "contentPath": "projects/portfolio.md",
+      "children": []
+    }
+  ]
+}

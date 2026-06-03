@@ -1,31 +1,29 @@
-<main class="page">
-  <article class="card">
-    @if (blog(); as selectedBlog) {
-      <section class="section-block">
-        <a routerLink="/blog"><- Back to all blogs</a>
+<div class="docs-page">
+  @if (post(); as p) {
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a routerLink="/blog">Blog</a>
+      @if (p.id.includes('/')) {
+        <span class="breadcrumb-sep">/</span>
+        <a [routerLink]="['/blog', p.id.split('/')[0]]">{{ p.id.split('/')[0] | titlecase }}</a>
+      }
+      <span class="breadcrumb-sep">/</span>
+      <span>{{ p.title }}</span>
+    </nav>
 
-        <h1>{{ selectedBlog.title }}</h1>
-        <p class="text">{{ selectedBlog.excerpt }}</p>
-        <p class="text">Published: {{ selectedBlog.date }}</p>
+    <h1>{{ p.title }}</h1>
+    <p class="post-meta">{{ p.date }}</p>
 
-        <div class="tag-list underline-breakline">
-          @for (tech of selectedBlog.technologies; track tech) {
-            <a
-              class="tag-item"
-              [routerLink]="['/blog']"
-              [queryParams]="{ tech: tech }"
-            >
-              {{ tech }}
-            </a>
-          }
-        </div>
-        <app-markdown-renderer [content]=selectedBlog.content></app-markdown-renderer>
-      </section>
-    } @else {
-      <section class="section-block">
-        <h1>Blog post not found</h1>
-        <a routerLink="/blog">Back to blog</a>
-      </section>
-    }
-  </article>
-</main>
+    <div class="tag-list underline-breakline">
+      @for (tech of p.technologies; track tech) {
+        <a class="tag-item" [routerLink]="['/blog']" [queryParams]="{ tech: tech }">
+          {{ tech }}
+        </a>
+      }
+    </div>
+
+    <app-markdown-renderer [content]="content()" [basePath]="basePath()"></app-markdown-renderer>
+  } @else {
+    <h1>Post not found</h1>
+    <a routerLink="/blog">← Back to blog</a>
+  }
+</div>

@@ -27,10 +27,19 @@ export class MarkdownService {
     marked.use({ renderer });
   }
 
-  render(rawMarkdown: string): SafeHtml {
+  render(rawMarkdown: string, basePath = ''): SafeHtml {
     const withCustomBlocks = this.transformCustomBlocks(rawMarkdown);
     const html = marked.parse(withCustomBlocks) as string;
-    return this.sanitizer.bypassSecurityTrustHtml(html);
+    const resolved = basePath ? this.resolveImagePaths(html, basePath) : html;
+    return this.sanitizer.bypassSecurityTrustHtml(resolved);
+  }
+
+  private resolveImagePaths(html: string, basePath: string): string {
+    // Prefix src values that are relative (no protocol, no leading slash)
+    return html.replace(
+      /(<img[^>]+src=")(?!https?:\/\/|\/\/|\/|data:)([^"]+)"/g,
+      `$1${basePath}$2"`
+    );
   }
 
   private transformCustomBlocks(markdown: string): string {

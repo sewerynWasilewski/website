@@ -1,0 +1,206 @@
+/* ── Layout ─────────────────────────────────────────────────────────────── */
+
+.docs-layout {
+  display: flex;
+  min-height: 100vh;
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* ── Sidebar ─────────────────────────────────────────────────────────────── */
+
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  position: sticky;
+  top: var(--navbar-height);
+  height: calc(100vh - var(--navbar-height));
+  overflow-y: auto;
+  border-right: 1px solid var(--line);
+  background: var(--card-bg);
+  padding: 28px 0 40px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 4px;
+}
+
+/* ── Search ──────────────────────────────────────────────────────────────── */
+
+.sidebar-search {
+  padding: 0 16px 24px;
+}
+
+.search-input-wrapper {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 15px;
+  height: 15px;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 12px 8px 34px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--card-soft);
+  font-family: var(--text-font);
+  font-size: 13px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s;
+  -webkit-appearance: none;
+}
+
+.search-input:focus {
+  border-color: var(--accent);
+}
+
+.search-input::placeholder {
+  color: var(--muted);
+}
+
+/* ── Search results (flat list shown while typing) ───────────────────────── */
+
+.search-results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.search-result-item {
+  display: block;
+  padding: 6px 16px 6px 20px;
+  font-family: var(--text-font);
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+}
+
+.search-result-item:hover {
+  color: var(--text);
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.search-result-item.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: rgba(42, 125, 225, 0.06);
+}
+
+.no-results {
+  font-family: var(--text-font);
+  font-size: 13px;
+  color: var(--muted);
+  padding: 12px 16px;
+  margin: 0;
+}
+
+/* ── Content area ────────────────────────────────────────────────────────── */
+
+.docs-content {
+  flex: 1;
+  min-width: 0;
+  padding: 48px 56px;
+  max-width: 900px;
+}
+
+/* ── Mobile toggle ───────────────────────────────────────────────────────── */
+
+.sidebar-toggle {
+  display: none;
+  position: fixed;
+  top: calc(var(--navbar-height) + 10px);
+  left: 16px;
+  z-index: 200;
+  width: 38px;
+  height: 38px;
+  background: var(--card-bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 0;
+}
+
+.toggle-bar {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: background 0.15s;
+}
+
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 90;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.sidebar-backdrop.visible {
+  opacity: 1;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .sidebar-toggle {
+    display: flex;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: var(--navbar-height);
+    left: 0;
+    height: calc(100vh - var(--navbar-height));
+    z-index: 100;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    box-shadow: none;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar-backdrop {
+    display: block;
+  }
+
+  .docs-content {
+    padding: 56px 24px 40px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .docs-content {
+    padding: 56px 16px 40px;
+  }
+}

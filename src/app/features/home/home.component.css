@@ -38,12 +38,114 @@
   text-decoration: none;
 }
 
-.contact-link {
+/* ── Intro action buttons ─────────────────────────────────────── */
+
+.intro-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.btn-primary,
+.btn-secondary {
   display: inline-block;
-  color: var(--text);
+  font-family: var(--text-font);
+  font-size: 14px;
   text-decoration: none;
-  font-size: 15px;
-  margin-bottom: 12px;
+  padding: 9px 16px;
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s, transform 0.15s;
+}
+
+.btn-primary {
+  background: var(--text);
+  color: var(--card-bg);
+}
+
+.btn-primary:hover {
+  background: var(--accent);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--line);
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+/* ── Section title ────────────────────────────────────────────── */
+
+.section-title {
+  margin: 0 0 20px;
+  font-size: clamp(22px, 2.5vw, 32px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+/* ── Nav cards ────────────────────────────────────────────────── */
+
+.nav-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.nav-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--card-soft);
+  border: 1px solid transparent;
+  border-radius: 14px;
+  padding: 20px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+}
+
+.nav-card:hover {
+  border-color: var(--line);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
+}
+
+.nav-card-label {
+  font-family: var(--header-font);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.nav-card p {
+  font-family: var(--text-font);
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+  flex: 1;
+}
+
+.nav-card-cta {
+  font-family: var(--text-font);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.nav-card:hover .nav-card-cta {
+  color: var(--accent);
+}
+
+@media (max-width: 560px) {
+  .nav-cards {
+    grid-template-columns: 1fr;
+  }
 }
 
 .section-header {

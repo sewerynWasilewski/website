@@ -1,6 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs/operators';
 import { ProjectsAPIService, ProjectOverview } from '../../core/services/projects-api.service';
+import { BlogService, BlogPost } from '../../core/services/blog-api.service';
 
 type Technology = {
   name: string;
@@ -8,9 +11,7 @@ type Technology = {
   query: string;
 };
 
-type HomeProject = ProjectOverview & {
-  href: string;
-};
+type HomeProject = ProjectOverview & { href: string };
 
 @Component({
   selector: 'app-home',
@@ -21,6 +22,7 @@ type HomeProject = ProjectOverview & {
 })
 export class HomeComponent {
   private readonly projectsService = inject(ProjectsAPIService);
+  private readonly blogService = inject(BlogService);
 
   readonly technologies: Technology[] = [
     { name: 'Angular', icon: 'assets/icons/angular.svg', query: 'angular' },
@@ -51,18 +53,23 @@ export class HomeComponent {
     { name: 'OpenGL', icon: 'assets/icons/opengl.svg', query: 'opengl' },
   ];
 
-  readonly projects: HomeProject[] = this.projectsService
-    .getFeaturedProjects(3)
-    .map((project) => ({
-      ...project,
-      href: `/projects/${project.id}`,
-    }));
+  readonly projects = toSignal(
+    this.projectsService.getFeaturedProjects(3).pipe(
+      map(projects => projects.map(p => ({ ...p, href: `/projects/${p.id}` }) as HomeProject))
+    ),
+    { initialValue: [] as HomeProject[] }
+  );
 
-  trackByTech(index: number, tech: Technology): string {
-    return tech.query;
+  readonly recentPosts = toSignal(
+    this.blogService.getAllPosts().pipe(map(posts => posts.slice(0, 3))),
+    { initialValue: [] as BlogPost[] }
+  );
+
+  blogLink(id: string): string[] {
+    return ['/blog', ...id.split('/')];
   }
 
-  trackByProject(index: number, project: HomeProject): string {
-    return project.id;
-  }
+  trackByTech(index: number, tech: Technology): string { return tech.query; }
+  trackByProject(index: number, project: HomeProject): string { return project.id; }
+  trackByPost(index: number, post: BlogPost): string { return post.id; }
 }

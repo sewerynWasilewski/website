@@ -1,7 +1,7 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { ProjectOverview, ProjectsAPIService } from '../../core/services/projects-api.service';
 
 @Component({
@@ -16,22 +16,24 @@ export class ProjectsComponent {
   private readonly projectsService = inject(ProjectsAPIService);
 
   readonly techFilter$ = this.route.queryParamMap.pipe(
-    map((params) => params.get('tech')?.trim().toLowerCase() ?? '')
+    map(params => params.get('tech')?.trim().toLowerCase() ?? '')
   );
 
   readonly filteredProjects$ = this.techFilter$.pipe(
-    map((tech) => {
-      if (!tech) {
-        return this.projectsService.getAllProjects();
-      }
-
-      return this.projectsService.getProjectsByTechnology(tech);
-    })
+    switchMap(tech =>
+      tech
+        ? this.projectsService.getProjectsByTechnology(tech)
+        : this.projectsService.getAllProjects()
+    )
   );
 
   readonly pageTitle$ = this.techFilter$.pipe(
-    map((tech) => (tech ? `Projects filtered by: ${tech}` : 'Projects'))
+    map(tech => (tech ? `Projects filtered by: ${tech}` : 'Projects'))
   );
+
+  projectLink(id: string): string[] {
+    return ['/projects', ...id.split('/')];
+  }
 
   trackByProject(index: number, project: ProjectOverview): string {
     return project.id;

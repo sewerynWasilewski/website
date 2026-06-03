@@ -4,6 +4,8 @@ import { ProjectsComponent } from './features/projects/projects.component';
 import { ProjectDetailsComponent } from './features/projects/project-details/project-details.component';
 import { BlogComponent } from './features/blog/blog.component';
 import { BlogDetailsComponent } from './features/blog/blog-details/blog-details.component';
+import { BlogShellComponent } from './features/blog/blog-shell/blog-shell.component';
+import { ProjectsShellComponent } from './features/projects/projects-shell/projects-shell.component';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 
 export const routes: Routes = [
@@ -13,34 +15,24 @@ export const routes: Routes = [
   },
   {
     path: 'projects',
-    component: ProjectsComponent,
-  },
-  {
-    path: 'projects/:project_id',
-    component: ProjectDetailsComponent,
+    component: ProjectsShellComponent,
+    children: [
+      { path: '', component: ProjectsComponent },
+      { path: ':slug', component: ProjectDetailsComponent },
+      { path: ':section/:slug', component: ProjectDetailsComponent },
+    ],
   },
   {
     path: 'blog',
-    component: BlogComponent,
+    component: BlogShellComponent,
+    children: [
+      { path: '', component: BlogComponent },
+      { path: ':slug', component: BlogDetailsComponent },
+      { path: ':section/:slug', component: BlogDetailsComponent },
+    ],
   },
   {
-    path: 'blog/:blog_id',
-    component: BlogDetailsComponent,
-  },
-  { 
-    path: 'admin',
-    loadChildren: () =>
-      import('./features/admin/admin.routes')
-        .then(m => m.adminPanelRoutes)
-  },
-  { 
-    path: 'markdown-test',
-    loadComponent: () =>
-      import('./features/markdown-palyground/markdown-playground.component')
-        .then(m => m.MarkdownPlaygroundComponent)
-  },
-  { 
-    path: '**', 
+    path: '**',
     component: NotFoundComponent,
-  }
+  },
 ];

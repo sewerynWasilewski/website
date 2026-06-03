@@ -1,50 +1,44 @@
-<main class="page">
-  <article class="card">
-    <section class="section-block">
-      <div class="section-header">
-        <h1>Blog</h1>
+<div class="docs-page">
+  <div class="docs-page-header">
+    <h1>Blog</h1>
+    @if (techFilter()) {
+      <a routerLink="/blog" class="clear-filter">Clear filter</a>
+    }
+  </div>
 
-        @if (techFilter()) {
-          <a routerLink="/blog">Clear filter</a>
-        }
-      </div>
+  @if (!techFilter()) {
+    <p class="section-description">
+      Notes on DevOps, infrastructure, and things I've worked through.
+      Posts are grouped by topic in the sidebar — expand a section to browse,
+      or use the search box to find something specific.
+    </p>
+  } @else {
+    <p class="active-filter">
+      Filtered by: <strong>{{ techFilter() }}</strong>
+    </p>
+  }
 
-      @if (techFilter()) {
-        <p class="text">
-          Active filter:
-          <strong>{{ techFilter() }}</strong>
-        </p>
-      }
-
-      <div class="project-list">
-        @for (blog of filteredBlogs(); track trackByBlog($index, blog)) {
-          <article class="project-card">
-            <div class="project-main read-more">
-              <a [routerLink]="['/blog', blog.id]">
-                <h2>{{ blog.title }}</h2>
-                <p>{{ blog.excerpt }}</p>
+  <div class="post-list">
+    @for (blog of filteredBlogs(); track trackByBlog($index, blog)) {
+      <article class="post-card">
+        <div class="post-main read-more">
+          <a [routerLink]="blogLink(blog.id)">
+            <h2>{{ blog.title }}</h2>
+            <p>{{ blog.excerpt }}</p>
+          </a>
+          <div class="tag-list">
+            @for (tech of blog.technologies; track tech) {
+              <a class="tag-item" [routerLink]="['/blog']" [queryParams]="{ tech: tech }">
+                {{ tech }}
               </a>
-              <div class="tag-list">
-                @for (tech of blog.technologies; track tech) {
-                  <a
-                    class="tag-item"
-                    [routerLink]="['/blog']"
-                    [queryParams]="{ tech: tech }"
-                  >
-                    {{ tech }}
-                  </a>
-                }
-              </div>
-
-              <a [routerLink]="['/blog', blog.id]">Read post →</a>
-            </div>
-
-            <div class="project-year">{{ blog.date }}</div>
-          </article>
-        } @empty {
-          <p class="text">No blog posts found for this technology.</p>
-        }
-      </div>
-    </section>
-  </article>
-</main>
+            }
+          </div>
+          <a [routerLink]="blogLink(blog.id)">Read post →</a>
+        </div>
+        <div class="post-date">{{ blog.date }}</div>
+      </article>
+    } @empty {
+      <p class="empty-state">No blog posts found for this technology.</p>
+    }
+  </div>
+</div>

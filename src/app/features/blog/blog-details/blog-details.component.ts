@@ -1,63 +1,52 @@
 import { Component, computed, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
+import { TitleCasePipe } from '@angular/common';
 
 import { MarkdownRendererComponent } from '../../../shared/components/markdown-renderer/markdown-renderer.component';
-
-type BlogDetails = {
-  id: string;
-  title: string;
-  excerpt: string;
-  date: string;
-  technologies: string[];
-  content: string;
-};
+import { BlogService } from '../../../core/services/blog-api.service';
+import { ContentService } from '../../../core/services/content.service';
 
 @Component({
   selector: 'app-blog-details',
   standalone: true,
-  imports: [RouterLink, MarkdownRendererComponent],
+  imports: [RouterLink, MarkdownRendererComponent, TitleCasePipe],
   templateUrl: './blog-details.component.html',
   styleUrl: './blog-details.component.css',
 })
 export class BlogDetailsComponent {
   private readonly route = inject(ActivatedRoute);
+  private readonly blogService = inject(BlogService);
+  private readonly contentService = inject(ContentService);
 
-  readonly blogs: readonly BlogDetails[] = [
-    {
-      id: 'terraform-state-basics',
-      title: 'Terraform State Basics',
-      excerpt: 'A short introduction to Terraform state.',
-      date: '2026-03-20',
-      technologies: ['terraform'],
-      content: 'This is a mock detailed blog post about Terraform state. \n\`variable_name\` \n - test \n- test2 \n- does it work\n- think so? \n\`\`\`\ncode block\n\`\`\` \n',
-    },
-    {
-      id: 'ansible-role-structure',
-      title: 'How I Structure Ansible Roles',
-      excerpt: 'A practical way to keep roles clean.',
-      date: '2026-03-18',
-      technologies: ['ansible', 'linux'],
-      content: '# This is a mock detailed blog post about Ansible role structure.\n\`variable_name\` \n - test \n- test2 \n- does it work\n- think so? \n\`\`\`\ncode block\n\`\`\` \n',
+  private readonly id$ = this.route.paramMap.pipe(
+    map(params => {
+      const section = params.get('section');
+      const slug = params.get('slug') ?? '';
+      return section ? `${section}/${slug}` : slug;
+    })
+  );
 
-    },
-    {
-      id: 'proxmox-vm-networking',
-      title: 'Proxmox VM Networking Notes',
-      excerpt: 'A few lessons learned while setting up networking.',
-      date: '2026-03-15',
-      technologies: ['proxmox', 'linux'],
-      content: ' # A few lessons learned while setting up bridges, NAT and internal networks.\n - test \n- test2 \n- does it work\n- think so? \n\`\`\`\ncode block\n\`\`\` \n',
-    },
-  ];
+  readonly post = toSignal(
+    this.id$.pipe(switchMap(id => this.blogService.getPost(id))),
+    { initialValue: null }
+  );
 
-  readonly blogId = toSignal(
-    this.route.paramMap.pipe(map((params) => params.get('blog_id') ?? '')),
+  readonly content = toSignal(
+    this.id$.pipe(switchMap(id => this.blogService.getPostContent(id))),
     { initialValue: '' }
   );
 
-  readonly blog = computed(() =>
-    this.blogs.find((item) => item.id === this.blogId()) ?? null
+  readonly basePath = toSignal(
+    this.id$.pipe(
+      switchMap(id => this.contentService.findBlogEntry(id)),
+      map(e => {
+        if (!e?.contentPath) return '';
+        const dir = e.contentPath.slice(0, e.contentPath.lastIndexOf('/') + 1);
+        return `content/${dir}`;
+      })
+    ),
+    { initialValue: '' }
   );
 }

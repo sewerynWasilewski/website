@@ -1,0 +1,132 @@
+:host {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.navbar {
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--line);
+  height: var(--navbar-height);
+  transition: box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.navbar.scrolled {
+  background: rgba(245, 245, 244, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom-color: transparent;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.navbar-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  gap: 24px;
+}
+
+/* ── Brand ───────────────────────────────────────────────────────────────── */
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--text);
+  flex-shrink: 0;
+}
+
+.brand-initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: var(--text);
+  color: var(--card-bg);
+  border-radius: 6px;
+  font-family: var(--header-font);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+
+.brand-name {
+  font-family: var(--header-font);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* ── Links ───────────────────────────────────────────────────────────────── */
+
+.navbar-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.navbar-links a {
+  font-family: var(--text-font);
+  font-size: 13px;
+  text-decoration: none;
+  color: var(--muted);
+  padding: 6px 10px;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+  white-space: nowrap;
+}
+
+.navbar-links a:hover {
+  color: var(--text);
+  background: var(--card-soft);
+}
+
+.navbar-links a.active {
+  color: var(--accent);
+}
+
+/* ── Divider ─────────────────────────────────────────────────────────────── */
+
+.navbar-divider {
+  width: 1px;
+  height: 18px;
+  background: var(--line);
+  margin: 0 6px;
+}
+
+/* ── Icon links ──────────────────────────────────────────────────────────── */
+
+.navbar-icon-link {
+  display: flex;
+  align-items: center;
+  padding: 6px !important;
+}
+
+.navbar-icon-link svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ── Mobile ──────────────────────────────────────────────────────────────── */
+
+@media (max-width: 480px) {
+  .brand-name {
+    display: none;
+  }
+
+  .navbar-inner {
+    padding: 0 16px;
+  }
+}

@@ -13,6 +13,7 @@ import { MarkdownService } from '../../../core/services/markdown.service';
 })
 export class MarkdownRendererComponent implements OnChanges, AfterViewInit {
   @Input({ required: true }) content = '';
+  @Input() basePath = '';
 
   renderedContent: SafeHtml = '';
 
@@ -20,7 +21,7 @@ export class MarkdownRendererComponent implements OnChanges, AfterViewInit {
   private host = inject(ElementRef<HTMLElement>);
 
   ngOnChanges(): void {
-    this.renderedContent = this.markdownService.render(this.content);
+    this.renderedContent = this.markdownService.render(this.content, this.basePath);
   }
 
   ngAfterViewInit(): void {

@@ -1,34 +1,29 @@
-<main class="page">
-  <article class="card">
-    @if (project; as selectedProject) {
-      <section class="section-block">
-        <a routerLink="/projects">← Back to projects</a>
+<div class="docs-page">
+  @if (project(); as p) {
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a routerLink="/projects">Projects</a>
+      @if (p.id.includes('/')) {
+        <span class="breadcrumb-sep">/</span>
+        <a [routerLink]="['/projects', p.id.split('/')[0]]">{{ p.id.split('/')[0] | titlecase }}</a>
+      }
+      <span class="breadcrumb-sep">/</span>
+      <span>{{ p.title }}</span>
+    </nav>
 
-        <h1>{{ selectedProject.title }}</h1>
-        <p class="text">{{ selectedProject.description }}</p>
-        <p class="text">{{ selectedProject.year }}</p>
+    <h1>{{ p.title }}</h1>
+    <p class="post-meta">{{ p.year }}</p>
 
-        <div class="tag-list">
-          @for (tech of selectedProject.technologies; track tech) {
-            <a
-              class="tag-item"
-              [routerLink]="['/projects']"
-              [queryParams]="{ tech: tech }"
-            >
-              {{ tech }}
-            </a>
-          }
-        </div>
-      </section>
+    <div class="tag-list">
+      @for (tech of p.technologies; track tech) {
+        <a class="tag-item" [routerLink]="['/projects']" [queryParams]="{ tech: tech }">
+          {{ tech }}
+        </a>
+      }
+    </div>
 
-      <section class="section-block">
-        <app-markdown-renderer [content]="selectedProject.content"></app-markdown-renderer>
-      </section>
-    } @else {
-      <section class="section-block">
-        <h1>Project not found</h1>
-        <a routerLink="/projects">Back to projects</a>
-      </section>
-    }
-  </article>
-</main>
+    <app-markdown-renderer [content]="content()" [basePath]="basePath()"></app-markdown-renderer>
+  } @else {
+    <h1>Project not found</h1>
+    <a routerLink="/projects">← Back to projects</a>
+  }
+</div>

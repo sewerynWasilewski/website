@@ -1,0 +1,33 @@
+<div class="node" [style.--depth]="depth()">
+  <div class="node-row">
+    @if (node().children.length > 0) {
+      <button class="chevron-btn" (click)="toggle($event)" [attr.aria-expanded]="expanded()" tabindex="-1">
+        <svg class="chevron" [class.expanded]="expanded()" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+          <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    } @else {
+      <span class="leaf-spacer"></span>
+    }
+
+    <a
+      class="node-link"
+      [routerLink]="node().routerLink"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="exactOptions"
+      (click)="onNavigate()"
+    >{{ node().label }}</a>
+  </div>
+
+  @if (node().children.length > 0 && expanded()) {
+    <div class="node-children">
+      @for (child of node().children; track child.id) {
+        <app-sidebar-node
+          [node]="child"
+          [depth]="depth() + 1"
+          (navigate)="onNavigate()"
+        />
+      }
+    </div>
+  }
+</div>
