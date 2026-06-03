@@ -14,7 +14,7 @@ RUN ng build --configuration=production
 
 FROM nginx:latest
 
-COPY --from=build /app/dist/portfolio/browser /usr/share/nginx/html
+COPY --from=build /app/dist/website/browser /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
