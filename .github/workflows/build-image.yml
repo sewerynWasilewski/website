@@ -1,13 +1,20 @@
-name: Build and Push
+name: Build and Push Image
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Image tag (defaults to commit SHA)'
+        required: false
+        default: ''
 
 env:
-  REGISTRY: registry.swasilewski.pl
+  REGISTRY: ${{ secrets.REGISTRY }}
   IMAGE_NAME: wasilewski-website
+  IMAGE_TAG: ${{ inputs.tag != '' && inputs.tag || github.sha }}
 
 jobs:
   build-and-push:
@@ -34,7 +41,7 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           build-args: |
             BUILD_COMMIT=${{ github.sha }}
